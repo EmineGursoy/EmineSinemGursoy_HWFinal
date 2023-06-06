@@ -51,6 +51,7 @@
 		63D16B5A2A2F10C400A730D3 /* MusicAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D16B5E2A2F10C400A730D3 /* MusicAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAppUITests.swift; sourceTree = "<group>"; };
 		63D16B602A2F10C400A730D3 /* MusicAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		63D16B6D2A2F3AF000A730D3 /* MusicAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MusicAPI; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +82,7 @@
 		63D16B2E2A2F10C300A730D3 = {
 			isa = PBXGroup;
 			children = (
+				63D16B6D2A2F3AF000A730D3 /* MusicAPI */,
 				63D16B392A2F10C300A730D3 /* MusicApp */,
 				63D16B532A2F10C400A730D3 /* MusicAppTests */,
 				63D16B5D2A2F10C400A730D3 /* MusicAppUITests */,
