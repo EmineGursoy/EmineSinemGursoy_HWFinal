@@ -17,6 +17,9 @@
 		63D16B552A2F10C400A730D3 /* MusicAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B542A2F10C400A730D3 /* MusicAppTests.swift */; };
 		63D16B5F2A2F10C400A730D3 /* MusicAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B5E2A2F10C400A730D3 /* MusicAppUITests.swift */; };
 		63D16B612A2F10C400A730D3 /* MusicAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B602A2F10C400A730D3 /* MusicAppUITestsLaunchTests.swift */; };
+		63D16B732A2FA43C00A730D3 /* CollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B722A2FA43C00A730D3 /* CollectionView+Extension.swift */; };
+		63D16B752A2FA65E00A730D3 /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B742A2FA65E00A730D3 /* UICollectionViewCell+Extension.swift */; };
+		63D16B782A2FA88C00A730D3 /* MusicAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 63D16B772A2FA88C00A730D3 /* MusicAPI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +55,8 @@
 		63D16B5E2A2F10C400A730D3 /* MusicAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAppUITests.swift; sourceTree = "<group>"; };
 		63D16B602A2F10C400A730D3 /* MusicAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		63D16B6D2A2F3AF000A730D3 /* MusicAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MusicAPI; sourceTree = "<group>"; };
+		63D16B722A2FA43C00A730D3 /* CollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionView+Extension.swift"; sourceTree = "<group>"; };
+		63D16B742A2FA65E00A730D3 /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D16B782A2FA88C00A730D3 /* MusicAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +93,7 @@
 				63D16B532A2F10C400A730D3 /* MusicAppTests */,
 				63D16B5D2A2F10C400A730D3 /* MusicAppUITests */,
 				63D16B382A2F10C300A730D3 /* Products */,
+				63D16B762A2FA88C00A730D3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +110,7 @@
 		63D16B392A2F10C300A730D3 /* MusicApp */ = {
 			isa = PBXGroup;
 			children = (
+				63D16B712A2FA3E200A730D3 /* Extensions */,
 				63D16B3A2A2F10C300A730D3 /* AppDelegate.swift */,
 				63D16B3C2A2F10C300A730D3 /* SceneDelegate.swift */,
 				63D16B3E2A2F10C300A730D3 /* ViewController.swift */,
@@ -132,6 +140,22 @@
 			path = MusicAppUITests;
 			sourceTree = "<group>";
 		};
+		63D16B712A2FA3E200A730D3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				63D16B722A2FA43C00A730D3 /* CollectionView+Extension.swift */,
+				63D16B742A2FA65E00A730D3 /* UICollectionViewCell+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		63D16B762A2FA88C00A730D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -148,6 +172,9 @@
 			dependencies = (
 			);
 			name = MusicApp;
+			packageProductDependencies = (
+				63D16B772A2FA88C00A730D3 /* MusicAPI */,
+			);
 			productName = MusicApp;
 			productReference = 63D16B372A2F10C300A730D3 /* MusicApp.app */;
 			productType = "com.apple.product-type.application";
@@ -265,7 +292,9 @@
 			files = (
 				63D16B3F2A2F10C300A730D3 /* ViewController.swift in Sources */,
 				63D16B3B2A2F10C300A730D3 /* AppDelegate.swift in Sources */,
+				63D16B752A2FA65E00A730D3 /* UICollectionViewCell+Extension.swift in Sources */,
 				63D16B3D2A2F10C300A730D3 /* SceneDelegate.swift in Sources */,
+				63D16B732A2FA43C00A730D3 /* CollectionView+Extension.swift in Sources */,
 				63D16B452A2F10C300A730D3 /* MusicApp.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -602,6 +631,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63D16B772A2FA88C00A730D3 /* MusicAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MusicAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		63D16B432A2F10C300A730D3 /* MusicApp.xcdatamodeld */ = {
