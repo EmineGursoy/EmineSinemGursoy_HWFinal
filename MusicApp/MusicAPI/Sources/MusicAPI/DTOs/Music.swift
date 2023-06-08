@@ -13,20 +13,20 @@ public struct MusicResult: Decodable {
 }
 
 public struct Music: Decodable {
-    let artistID, collectionID, trackID: Int?
-    let wrapperType, kind: String?
-    let artistName, collectionName, trackName, collectionCensoredName: String?
-    let trackCensoredName: String?
-    let artistViewURL, collectionViewURL, trackViewURL: String?
-    let previewURL: String?
-    let artworkUrl30, artworkUrl60, artworkUrl100: String?
-    let collectionPrice, trackPrice: Double?
-    let releaseDate: Date?
-    let collectionExplicitness, trackExplicitness: String?
-    let discCount, discNumber, trackCount, trackNumber: Int?
-    let trackTimeMillis: Int?
-    let country, currency, primaryGenreName: String?
-    let isStreamable: Bool?
+    public let artistID, collectionID, trackID: Int?
+    public let wrapperType, kind: String?
+    public let artistName, collectionName, trackName, collectionCensoredName: String?
+    public let trackCensoredName: String?
+    public let artistViewURL, collectionViewURL, trackViewURL: String?
+    public let previewURL: String?
+    public let artworkUrl30, artworkUrl60, artworkUrl100: String?
+    public let collectionPrice, trackPrice: Double?
+    public let releaseDate: Date?
+    public let collectionExplicitness, trackExplicitness: String?
+    public let discCount, discNumber, trackCount, trackNumber: Int?
+    public let trackTimeMillis: Int?
+    public let country, currency, primaryGenreName: String?
+    public let isStreamable: Bool?
 
     enum CodingKeys: String, CodingKey {
         case artistID = "artistId"

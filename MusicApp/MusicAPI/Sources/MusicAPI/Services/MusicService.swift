@@ -17,7 +17,6 @@ public class MusicService: MusicServiceProtocol {
     public init() {}
     
     public func fetchMusics(completion: @escaping (Result<[Music], Error>) -> Void) {
-       
         let urlString = "https://itunes.apple.com/search?entity=song&term=tarkan"
         AF.request(urlString).responseData { response in
             switch response.result {
