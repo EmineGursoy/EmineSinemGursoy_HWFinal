@@ -13,10 +13,13 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     let service: MusicServiceProtocol = MusicService()
-    private var musics: [Music] = []
+    //private var musics: [Music] = []
     
     var searchPresenterObject: ViewToPresenterSearchProtocol?
     var musicList: [Music] = []
+    
+    var filteredMusicList = [Music]()
+    var isFiltering: Bool = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -62,14 +65,45 @@ extension SearchViewController: PresenterToViewSearchProtocol {
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if isFiltering {
+            return filteredMusicList.count
+        }
         return musicList.count
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCell
-        cell.configureCell(model: self.musicList[indexPath.row])
+        
+        if isFiltering {
+            cell.configureCell(model: self.filteredMusicList[indexPath.row])
+        } else {
+            cell.configureCell(model: self.musicList[indexPath.row])
+        }
+    
         return cell
     }
     
 }
 
+extension SearchViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredMusicList = musicList.filter({ (music: Music) -> Bool in
+            return music.artistName?.lowercased().contains(searchText.lowercased()) ??
+            false
+        })
+        
+        if searchText == "" {
+            isFiltering = false
+        } else {
+            isFiltering = true
+        }
+        collectionView.reloadData()
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isFiltering = false
+        searchBar.text = ""
+        collectionView.reloadData()
+    }
+}
