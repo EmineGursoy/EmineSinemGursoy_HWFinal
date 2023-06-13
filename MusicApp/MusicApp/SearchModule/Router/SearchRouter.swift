@@ -6,19 +6,42 @@
 //
 
 import Foundation
+import MusicAPI
+import UIKit
 
-class SearchRouter: PresenterToRouterSearchProtocol {
-    static func execModule(ref: SearchViewController) {
-        let presenter = SearchPresenter()
-        
-        //View
-        ref.searchPresenterObject = presenter
-        
-        //Presenter
-        ref.searchPresenterObject?.searchInteractorObject = SearchInteractor()
-        ref.searchPresenterObject?.searchViewObject = ref
-        
-        //Interactor
-        ref.searchPresenterObject?.searchInteractorObject?.searchPresenterObject = presenter
+protocol SearchRouterProtocol {
+    func navigate(_ route: SearchRoutes)
+}
+
+enum SearchRoutes {
+    case detail(source: Music?)
+}
+
+final class SearchRouter {
+    weak var viewController: SearchViewController?
+    
+    static func createModule() -> SearchViewController {
+        let view = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+        let interactor = SearchInteractor()
+        let router = SearchRouter()
+        let presenter = SearchPresenter(view: view, interactor: interactor, router: router)
+        view.presenter = presenter
+        interactor.output = presenter
+        router.viewController = view
+        return view
+    }
+    
+}
+
+extension SearchRouter: SearchRouterProtocol {
+    
+    func navigate(_ route: SearchRoutes) {
+        switch route {
+        case .detail(let source):
+            
+            let detailVC = DetailRouter.createModule()
+            detailVC.source = source
+            viewController?.navigationController?.pushViewController(detailVC, animated: true)
+        }
     }
 }

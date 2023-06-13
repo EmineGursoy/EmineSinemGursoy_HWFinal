@@ -10,41 +10,56 @@ import SDWebImage
 import MusicAPI
 import AVFoundation
 
-class SearchCell: UICollectionViewCell {
+protocol SearchCellProtocol: AnyObject {
+    func setImage(_ image: UIImage)
+    func setSingerName(_ text: String)
+    func setSongName(_ text: String)
+    func setCollectionName(_ text: String)
+    func setImg(url: URL)
+    func playButtonClicked(url: URL)
+    func getSource() -> Music?
+}
+
+final class SearchCell: UICollectionViewCell {
 
     @IBOutlet weak var singerPicImageView: UIImageView!
     @IBOutlet weak var songNameLabel: UILabel!
     @IBOutlet weak var singerNameLabel: UILabel!
     @IBOutlet weak var collectionLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
-    
+  
+    var cellPresenter: SearchCellPresenterProtocol! {
+        didSet {
+            cellPresenter.load()
+        }
+     }
+
     var player: AVPlayer?
     var isPlaying: Bool = false
+
+    var source: Music?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    }
-    
-    // Configures song cell
-    func configureCell(model: Music) {
-        singerNameLabel.text = model.artistName
-        songNameLabel.text = model.trackName
-        collectionLabel.text = model.collectionName
-        prepareImage(with: model.artworkUrl100)
-    }
-    
-    private func prepareImage(with urlString: String?) {
-        guard let urlString = urlString else { return }
-        if let url = URL(string: urlString) {
-            singerPicImageView.sd_setImage(with: url)
+        self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        UIView.animate(withDuration: 0.5) {
+            self.transform = CGAffineTransform.identity
         }
     }
     
-    func playSound() {
-        let urlString = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/b3/5f/8b/b35f8bfc-7450-6c6a-a01d-c0ad1dbce2e8/mzaf_13236724710233336637.plus.aac.p.m4a"
-        guard let url = URL(string: urlString) else { return }
+    @IBAction func playButtonClicked(_ sender: Any) {
+        cellPresenter.playButtonClicked()
+    }
+}
 
+extension SearchCell: SearchCellProtocol {
+    
+    func getSource() -> Music? {
+        return source
+    }
+    
+    func playButtonClicked(url: URL) {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -58,12 +73,27 @@ class SearchCell: UICollectionViewCell {
         }
     }
     
-    
-    @IBAction func playButtonClicked(_ sender: Any) {
-        isPlaying = !isPlaying
-        let image = isPlaying ? "play.circle" : "stop.circle"
-        playButton.setImage(UIImage(named: image), for: .normal)
-        
-        playSound()
+    func setImg(url: URL) {
+        singerPicImageView.sd_setImage(with: url)
     }
+    
+    func setSingerName(_ text: String) {
+        singerNameLabel.text = text
+    }
+    
+    func setSongName(_ text: String) {
+        songNameLabel.text = text
+    }
+    
+    func setCollectionName(_ text: String) {
+        collectionLabel.text = text
+    }
+    
+    
+    func setImage(_ image: UIImage) {
+       /* DispatchQueue.main.async {
+            self.singerPicImageView.image = image
+        } */
+    }
+    
 }

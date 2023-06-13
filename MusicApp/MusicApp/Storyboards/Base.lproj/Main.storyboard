@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lh3-8o-0Gs">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -12,20 +12,26 @@
         <!--Search View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="MusicApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" id="BYZ-38-t0r" customClass="SearchViewController" customModule="MusicApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="QiR-hd-CpB">
-                                <rect key="frame" x="0.0" y="59" width="393" height="56"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="zWU-tE-axr"/>
                                 </connections>
                             </searchBar>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please search something" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5O-Ik-OWe">
+                                <rect key="frame" x="101.33333333333333" y="416" width="190.33333333333337" height="20.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0je-eP-2MV">
-                                <rect key="frame" x="0.0" y="115" width="393" height="737"/>
+                                <rect key="frame" x="0.0" y="159" width="393" height="693"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="00E-Lj-h1U">
                                     <size key="itemSize" width="392" height="128"/>
@@ -34,7 +40,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="ug4-Yt-ghL" customClass="SearchCell" customModule="MusicApp" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SearchCell" id="ug4-Yt-ghL" customClass="SearchCell" customModule="MusicApp" customModuleProvider="target">
                                         <rect key="frame" x="0.66666666666666663" y="0.0" width="392" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="J9d-7Z-4eU">
@@ -126,19 +132,43 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="0je-eP-2MV" secondAttribute="bottom" id="1b0-qM-RUU"/>
                             <constraint firstItem="0je-eP-2MV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="7dD-0e-xxF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="X5O-Ik-OWe" secondAttribute="trailing" constant="20" id="7sy-dY-EU7"/>
                             <constraint firstItem="0je-eP-2MV" firstAttribute="top" secondItem="QiR-hd-CpB" secondAttribute="bottom" id="F0Z-rJ-LKJ"/>
                             <constraint firstItem="QiR-hd-CpB" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Jz4-uX-SPI"/>
                             <constraint firstItem="QiR-hd-CpB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WUA-zp-kGr"/>
                             <constraint firstItem="QiR-hd-CpB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="d2i-dV-vLT"/>
+                            <constraint firstItem="X5O-Ik-OWe" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="fhh-47-YwQ"/>
+                            <constraint firstItem="X5O-Ik-OWe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nxt-dN-f6G"/>
                             <constraint firstItem="0je-eP-2MV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tNP-oo-kKr"/>
+                            <constraint firstItem="X5O-Ik-OWe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ueF-tO-070"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="5lO-AX-9Yh"/>
                     <connections>
-                        <outlet property="collectionView" destination="0je-eP-2MV" id="j6Z-1R-AvE"/>
+                        <outlet property="collectionView" destination="0je-eP-2MV" id="FrW-mk-xDE"/>
+                        <outlet property="emptySearchLabel" destination="X5O-Ik-OWe" id="eGL-39-324"/>
                         <outlet property="searchBar" destination="QiR-hd-CpB" id="p10-iQ-cgJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="869.46564885496184" y="3.5211267605633805"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VgU-m8-2rZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Lh3-8o-0Gs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6uU-14-vb8">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="nh2-HK-s68"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4L8-cV-tUJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-57.251908396946561" y="3.5211267605633805"/>
         </scene>

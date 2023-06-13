@@ -8,102 +8,110 @@
 import UIKit
 import MusicAPI
 
-class SearchViewController: UIViewController {
+protocol SearchViewControllerProtocol: AnyObject {
+    func setUpCollectionView()
+    func reloadData()
+    func showError(_ message: String)
+    func setTitle(_ title: String)
+    func setSearchBar()
+    func showEmptyResultList()
+}
+
+final class SearchViewController: BaseViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var emptySearchLabel: UILabel!
     
     let service: MusicServiceProtocol = MusicService()
-    //private var musics: [Music] = []
     
-    var searchPresenterObject: ViewToPresenterSearchProtocol?
     var musicList: [Music] = []
     
     var filteredMusicList = [Music]()
     var isFiltering: Bool = false
     
+    var selectedMusic: Music?
+    
+    var presenter: SearchPresenterProtocol!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //fetchMusics()
-        searchPresenterObject?.viewPosts()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        SearchRouter.execModule(ref: self)
-    }
-    
-    /*
-    fileprivate func fetchMusics() {
-        service.fetchMusics { [weak self] response in
-            guard let self else { return }
-            switch response {
-            case .success(let musics):
-                print(musics)
-                self.musics = musics
-            case .failure(let error):
-                print(error)
-            }
-        
-        }
-        
-    } */
-    
-}
-
-extension SearchViewController: PresenterToViewSearchProtocol {
-    func sendDataToView(postList: [Music]) {
-        DispatchQueue.main.async {
-            self.musicList = postList
-            self.collectionView.reloadData()
-        }
+        presenter.viewDidLoad()
     }
 }
-
 
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if isFiltering {
-            return filteredMusicList.count
-        }
-        return musicList.count
-        
+        presenter.numberOfItems()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCell
         
-        if isFiltering {
-            cell.configureCell(model: self.filteredMusicList[indexPath.row])
-        } else {
-            cell.configureCell(model: self.musicList[indexPath.row])
+        let cell = collectionView.dequeueReusableCell(with: SearchCell.self, for: indexPath)
+        
+        if let music = presenter.musics(indexPath.row) {
+            cell.cellPresenter = SearchCellPresenter(view: cell, music: music)
         }
-    
+        
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.didSelectRowAt(index: indexPath.row)
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredMusicList = musicList.filter({ (music: Music) -> Bool in
-            return music.artistName?.lowercased().contains(searchText.lowercased()) ??
-            false
-        })
-        
-        if searchText == "" {
-            isFiltering = false
-        } else {
-            isFiltering = true
-        }
-        collectionView.reloadData()
+        presenter.textDidChange(searchText: searchText)
     }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isFiltering = false
+        presenter.searchBarCancelButtonClicked()
+    }
+     
+}
+
+extension SearchViewController: SearchViewControllerProtocol {
+    
+    func setSearchBar() {
         searchBar.text = ""
-        collectionView.reloadData()
+    }
+    
+    func setTitle(_ title: String) {
+        self.title = title
+    }
+    
+    func setUpCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if self.presenter.numberOfItems() > 0 {
+                self.collectionView.isHidden = false
+                self.emptySearchLabel.isHidden = true
+                self.collectionView.reloadData()
+            } else {
+                self.collectionView.isHidden = true
+                self.emptySearchLabel.isHidden = false
+            }
+        }
+    }
+    
+    func showError(_ message: String) {
+        makeAlert("Error", message)
+    }
+    
+    func showEmptyResultList() {
+        collectionView.isHidden = true
+        emptySearchLabel.isHidden = false
     }
 }
+

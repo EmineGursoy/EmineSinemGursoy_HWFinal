@@ -9,16 +9,16 @@ import Foundation
 import Alamofire
 
 public protocol MusicServiceProtocol: AnyObject {
-    func fetchMusics(completion: @escaping (Result<[Music], Error>) -> Void)
+    func fetchMusics(searchText: String, completion: @escaping (Result<[Music], Error>) -> Void)
 }
 
 public class MusicService: MusicServiceProtocol {
     
     public init() {}
     
-    public func fetchMusics(completion: @escaping (Result<[Music], Error>) -> Void) {
-        let urlString = "https://itunes.apple.com/search?entity=song&term=tarkan"
-        AF.request(urlString).responseData { response in
+    public func fetchMusics(searchText: String, completion: @escaping (Result<[Music], Error>) -> Void) {
+        let urlString = "https://itunes.apple.com/search?entity=song&term=\(searchText)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        AF.request(urlString!).responseData { response in
             switch response.result {
                 
             case .success(let data):

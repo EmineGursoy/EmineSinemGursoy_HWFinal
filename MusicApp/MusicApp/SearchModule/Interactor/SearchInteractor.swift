@@ -8,17 +8,43 @@
 import Foundation
 import MusicAPI
 
-class SearchInteractor: PresenterToInteractorSearchProtocol {
-    var searchPresenterObject: InteractorToPresenterSearchProtocol?
+typealias MusicSourcesResult = Result<[Music], Error>
+
+//MARK: Presenter -> InteractorProtocol
+protocol SearchInteractorProtocol: AnyObject {
+    var searchText: String { get set }
+}
+
+//MARK: InteractorOutput -> Presenter
+protocol SearchInteractorOutputProtocol {
+    func showMusicOutput(_ result: MusicSourcesResult)
+    func showEmptySearchList()
+}
+
+fileprivate var musicService: MusicServiceProtocol = MusicService()
+
+final class SearchInteractor: SearchInteractorProtocol {
+    private let service: MusicServiceProtocol
     
-    func getAllPosts() {
-        MusicService().fetchMusics{ result in
-            switch result {
-            case .success(let posts):
-                self.searchPresenterObject?.sendDataToPresenter(postList: posts)
-            case .failure(let error):
-                print(error.localizedDescription)
+    var output: SearchInteractorOutputProtocol?
+    var searchText: String = "" {
+        didSet {
+            if searchText.isEmpty {
+                output?.showEmptySearchList()
+            } else {
+                fetchMusic(text: searchText)
             }
+        }
+    }
+    
+    init(service: MusicServiceProtocol = MusicService()) {
+        self.service = service
+    }
+    
+    func fetchMusic(text: String) {
+        musicService.fetchMusics(searchText: text) { [weak self] result in
+            guard let self else { return }
+            self.output?.showMusicOutput(result)
         }
     }
 }
