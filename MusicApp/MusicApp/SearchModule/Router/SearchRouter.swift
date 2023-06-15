@@ -39,8 +39,9 @@ extension SearchRouter: SearchRouterProtocol {
         switch route {
         case .detail(let source):
             
-            let detailVC = DetailRouter.createModule()
-            detailVC.source = source
+            guard let music = source else { return }
+            
+            let detailVC = DetailRouter.createModule(music: music)
             viewController?.navigationController?.pushViewController(detailVC, animated: true)
         }
     }

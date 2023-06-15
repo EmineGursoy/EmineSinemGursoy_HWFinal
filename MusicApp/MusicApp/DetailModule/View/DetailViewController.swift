@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import MusicAPI
 
 protocol DetailViewControllerProtocol: AnyObject {
-    func changeLike(_ change: Bool)
+    func changeLike(_ liked: Bool)
+    func changePlay(_ playing: Bool)
     func setSingerNameLabel(_ text: String)
     func setCollectionLabel(_ text: String)
     func playMusic(_ url: String)
@@ -17,7 +17,6 @@ protocol DetailViewControllerProtocol: AnyObject {
     func setSongTypeLabel(_ text: String)
     func setTrackPriceLabel(_ text: String)
     func setCollectionPriceLabel(_ text: String)
-    func getSource() -> Music?
     func setImg(url: URL)
 }
 
@@ -34,7 +33,6 @@ final class DetailViewController: BaseViewController {
     @IBOutlet weak var collectionPriceLabel: UILabel!
     
     var presenter: DetailPresenterProtocol!
-    var source: Music?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,13 +55,22 @@ extension DetailViewController: DetailViewControllerProtocol {
     func setImg(url: URL) {
         singerPicImageView.sd_setImage(with: url)
     }
-    
-    func getSource() -> Music? {
-        return source
-    }
    
-    func changeLike(_ change: Bool) {
+    func changeLike(_ liked: Bool) {
+        if liked == true {
+            self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
         
+    }
+    
+    func changePlay(_ playing: Bool) {
+        if playing == true {
+            self.playButton.setImage(UIImage(systemName: "stop.circle"), for: .normal)
+        } else {
+            self.playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        }
     }
     
     func setSingerNameLabel(_ text: String) {

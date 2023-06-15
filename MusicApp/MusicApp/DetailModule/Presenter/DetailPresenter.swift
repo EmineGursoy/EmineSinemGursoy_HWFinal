@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import AVFoundation
+import MusicAPI
 
 protocol DetailPresenterProtocol {
     func viewDidLoad()
@@ -17,26 +17,35 @@ protocol DetailPresenterProtocol {
 
 final class DetailPresenter {
     
-    var player: AVPlayer?
-    var isPlaying: Bool = false
-    
     unowned var view: DetailViewControllerProtocol!
+    let interactor: DetailInteractorProtocol
     let router: DetailRouterProtocol!
     
     init(
         view: DetailViewControllerProtocol,
+        interactor: DetailInteractorProtocol,
         router: DetailRouterProtocol
     ) {
         self.view = view
+        self.interactor = interactor
         self.router = router
-    }
-    
+    }    
 }
 
-extension DetailPresenter: DetailPresenterProtocol {
+extension DetailPresenter: DetailPresenterProtocol, DetailInteractorOutputProtocol {
+    func updateLikeButton(isLiked: Bool) {
+        view.changeLike(isLiked)
+    }
+    
+    func updatePlayButton(isPlaying: Bool) {
+        view.changePlay(isPlaying)
+    }
+    
     func viewDidLoad() {
-        guard let music = view.getSource() else { return } 
-       
+        interactor.viewDidLoad()
+    }
+    
+    func showMusicDetail(_ music: Music, isLiked: Bool) {
         guard let urlString = music.artworkUrl100 else { return }
         if let url = URL(string: urlString) {
             view?.setImg(url: url)
@@ -51,27 +60,15 @@ extension DetailPresenter: DetailPresenterProtocol {
         guard let collectionPrice = music.collectionPrice else { return }
         view.setTrackPriceLabel("Track Price: $ \(trackPrice)")
         view.setCollectionPriceLabel("Collection Price: $ \(collectionPrice)")
+        
+        view.changeLike(isLiked)
     }
     
     func playButtonClicked() {
-        guard let music = view.getSource() else { return }
-        let urlString = music.previewURL ?? ""
-        guard let url = URL(string: urlString) else { return }
-
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            player = try AVPlayer(url: url as URL)
-            player?.volume = 5.0
-            guard let player = player else { return }
-            player.play()
-
-        } catch let error {
-            print(error.localizedDescription)
-        }
+        interactor.playButtonClicked()
     }
     
     func likeButtonClicked() {
-        
+        interactor.likeButtonClicked()
     }
 }
