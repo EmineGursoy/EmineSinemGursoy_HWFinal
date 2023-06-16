@@ -16,4 +16,6 @@ MusicApp is a music application that uses iTunes Search API and displays it to t
 - Minimum iOS Version: 13.0
 - Design Pattern: Modular VIPER
 
-## Screen Records
+## Screen Record
+
+![](https://github.com/EmineGursoy/EmineSinemGursoy_HWFinal/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2014%20Pro%20-%202023-06-16%20at%2023.38.21.gif)
