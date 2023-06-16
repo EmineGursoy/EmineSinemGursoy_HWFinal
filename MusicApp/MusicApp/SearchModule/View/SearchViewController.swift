@@ -137,3 +137,9 @@ extension SearchViewController: SearchCellPresenterInputProtocol {
 
     }
 }
+
+extension SearchViewController {
+    func setAccessibilityIdentifiers() {
+        collectionView.accessibilityIdentifier = "collectionView"
+    }
+}

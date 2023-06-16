@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63C43ED42A3CE5B800013568 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 63C43ED32A3CE5B800013568 /* SDWebImage */; };
 		63D16B3B2A2F10C300A730D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B3A2A2F10C300A730D3 /* AppDelegate.swift */; };
 		63D16B3D2A2F10C300A730D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B3C2A2F10C300A730D3 /* SceneDelegate.swift */; };
 		63D16B3F2A2F10C300A730D3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D16B3E2A2F10C300A730D3 /* SearchViewController.swift */; };
@@ -102,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63C43ED42A3CE5B800013568 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +344,9 @@
 				63D16B522A2F10C400A730D3 /* PBXTargetDependency */,
 			);
 			name = MusicAppTests;
+			packageProductDependencies = (
+				63C43ED32A3CE5B800013568 /* SDWebImage */,
+			);
 			productName = MusicAppTests;
 			productReference = 63D16B502A2F10C400A730D3 /* MusicAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -812,6 +817,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		63C43ED32A3CE5B800013568 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63D16B902A31F33000A730D3 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
 		63D16B772A2FA88C00A730D3 /* MusicAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MusicAPI;
