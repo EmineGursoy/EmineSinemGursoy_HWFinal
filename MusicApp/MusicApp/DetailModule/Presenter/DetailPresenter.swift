@@ -12,6 +12,7 @@ import MusicAPI
 protocol DetailPresenterProtocol {
     func viewDidLoad()
     func playButtonClicked()
+    func stopMusic()
     func likeButtonClicked()
 }
 
@@ -70,5 +71,9 @@ extension DetailPresenter: DetailPresenterProtocol, DetailInteractorOutputProtoc
     
     func likeButtonClicked() {
         interactor.likeButtonClicked()
+    }
+    
+    func stopMusic() {
+        interactor.stopMusic()
     }
 }

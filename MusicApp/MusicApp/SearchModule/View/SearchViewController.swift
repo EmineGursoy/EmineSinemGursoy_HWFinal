@@ -33,6 +33,8 @@ final class SearchViewController: BaseViewController {
     
     var presenter: SearchPresenterProtocol!
     
+    var playedMusicCellPresenter: SearchCellPresenter?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
@@ -54,13 +56,14 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(with: SearchCell.self, for: indexPath)
         
         if let music = presenter.musics(indexPath.row) {
-            cell.cellPresenter = SearchCellPresenter(view: cell, music: music)
+            cell.cellPresenter = SearchCellPresenter(view: cell, input: self, music: music)
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        updatePlayButtons(cellPresenter: playedMusicCellPresenter)
         presenter.didSelectRowAt(index: indexPath.row)
     }
 }
@@ -115,3 +118,22 @@ extension SearchViewController: SearchViewControllerProtocol {
     }
 }
 
+extension SearchViewController: SearchCellPresenterInputProtocol {
+    func playButtonClicked(music: Music, from cellPresenter: SearchCellPresenter) {
+        presenter.playButtonClicked(music: music)
+        
+        updatePlayButtons(cellPresenter: cellPresenter)
+    }
+    
+    func updatePlayButtons(cellPresenter: SearchCellPresenter?) {
+        if playedMusicCellPresenter === cellPresenter { // If cellPresenter is the same as the previous played cell presenter, update the play button as not playing
+            cellPresenter?.updatePlayButton(isPlaying: false)
+            playedMusicCellPresenter = nil
+        } else { // else update the previous cell presenter button as not playing, and the current playing cell presenter to is playing
+            playedMusicCellPresenter?.updatePlayButton(isPlaying: false)
+            playedMusicCellPresenter = cellPresenter
+            cellPresenter?.updatePlayButton(isPlaying: true)
+        }
+
+    }
+}

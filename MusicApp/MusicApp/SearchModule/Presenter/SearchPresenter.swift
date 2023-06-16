@@ -7,7 +7,6 @@
 
 import Foundation
 import MusicAPI
-import AVFoundation
 
 protocol SearchPresenterProtocol: AnyObject {
     func viewDidLoad()
@@ -16,15 +15,13 @@ protocol SearchPresenterProtocol: AnyObject {
     func didSelectRowAt(index: Int)
     func textDidChange(searchText: String)
     func searchBarCancelButtonClicked()
+    func playButtonClicked(music: Music)
 }
 
 final class SearchPresenter {
     
     private var musics: [Music] = []
     private var musicList: [Music] = []
-    
-    var player: AVPlayer?
-    var isPlaying: Bool = false
     
     unowned var view: SearchViewControllerProtocol
     let interactor: SearchInteractorProtocol!
@@ -69,7 +66,13 @@ extension SearchPresenter: SearchPresenterProtocol {
     
     func didSelectRowAt(index: Int) {
         let source = musics[index]
+        
+        interactor.stopAllMusic()
         router.navigate(.detail(source: source))
+    }
+    
+    func playButtonClicked(music: Music) {
+        interactor.playButtonClicked(music: music)
     }
 }
 

@@ -7,26 +7,29 @@
 
 import UIKit
 import MusicAPI
-import AVFoundation
 
 protocol SearchCellPresenterProtocol: AnyObject {
     func load()
     func playButtonClicked()
 }
 
+protocol SearchCellPresenterInputProtocol: AnyObject {
+    func playButtonClicked(music: Music, from cellPresenter: SearchCellPresenter)
+}
+
 final class SearchCellPresenter {
     
-    var player: AVPlayer?
-    var isPlaying: Bool = false
-    
     weak var view: SearchCellProtocol?
+    weak var input: SearchCellPresenterInputProtocol?
     private let music: Music
     
     init(
         view: SearchCellProtocol?,
+        input: SearchCellPresenterInputProtocol?,
         music: Music
     ){
         self.view = view
+        self.input = input
         self.music = music
     }
 }
@@ -34,24 +37,8 @@ final class SearchCellPresenter {
 extension SearchCellPresenter: SearchCellPresenterProtocol {
    
     func playButtonClicked() {
-     
-        guard let urlString = music.previewURL else { return }
-        guard let url = URL(string: urlString) else { return }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            player = try AVPlayer(url: url as URL)
-            player?.volume = 5.0
-            guard let player = player else { return }
-            player.play()
-            
-        } catch let error {
-            print(error.localizedDescription)
-            
-        }
+        input?.playButtonClicked(music: music, from: self)
     }
-    
    
     func load() {
         guard let urlString = music.artworkUrl100 else { return }
@@ -63,4 +50,7 @@ extension SearchCellPresenter: SearchCellPresenterProtocol {
         view?.setCollectionName(music.collectionName ?? "")
     }
     
+    func updatePlayButton(isPlaying: Bool) {
+        view?.updatePlayButton(isPlaying: isPlaying)
+    }
 }

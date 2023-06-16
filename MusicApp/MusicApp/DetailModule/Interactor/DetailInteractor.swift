@@ -15,6 +15,7 @@ protocol DetailInteractorProtocol {
     func viewDidLoad()
     func playButtonClicked()
     func likeButtonClicked()
+    func stopMusic()
 }
 
 protocol DetailInteractorOutputProtocol {
@@ -60,6 +61,13 @@ final class DetailInteractor: DetailInteractorProtocol {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func stopMusic() {
+        player?.pause()
+        player = nil
+        isPlaying = false
+        output?.updatePlayButton(isPlaying: false)
     }
     
     func viewDidLoad() {

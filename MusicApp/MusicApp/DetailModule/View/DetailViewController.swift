@@ -38,6 +38,8 @@ final class DetailViewController: BaseViewController {
         super.viewDidLoad()
 
         presenter.viewDidLoad()
+        singerPicImageView.layer.cornerRadius = 16
+        singerPicImageView.clipsToBounds = true
     }
     
     @IBAction func likeButtonClicked(_ sender: Any) {
@@ -48,6 +50,11 @@ final class DetailViewController: BaseViewController {
         presenter.playButtonClicked()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        presenter.stopMusic()
+    }
 
 }
 extension DetailViewController: DetailViewControllerProtocol {

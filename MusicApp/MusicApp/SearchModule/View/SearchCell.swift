@@ -8,7 +8,6 @@
 import UIKit
 import SDWebImage
 import MusicAPI
-import AVFoundation
 
 protocol SearchCellProtocol: AnyObject {
     func setImage(_ image: UIImage)
@@ -16,8 +15,8 @@ protocol SearchCellProtocol: AnyObject {
     func setSongName(_ text: String)
     func setCollectionName(_ text: String)
     func setImg(url: URL)
-    func playButtonClicked(url: URL)
     func getSource() -> Music?
+    func updatePlayButton(isPlaying: Bool)
 }
 
 final class SearchCell: UICollectionViewCell {
@@ -33,10 +32,7 @@ final class SearchCell: UICollectionViewCell {
             cellPresenter.load()
         }
      }
-
-    var player: AVPlayer?
-    var isPlaying: Bool = false
-
+    
     var source: Music?
     
     override func awakeFromNib() {
@@ -46,6 +42,8 @@ final class SearchCell: UICollectionViewCell {
         UIView.animate(withDuration: 0.5) {
             self.transform = CGAffineTransform.identity
         }
+        
+        singerPicImageView.layer.cornerRadius = 16
     }
     
     @IBAction func playButtonClicked(_ sender: Any) {
@@ -57,20 +55,6 @@ extension SearchCell: SearchCellProtocol {
     
     func getSource() -> Music? {
         return source
-    }
-    
-    func playButtonClicked(url: URL) {
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            player = try AVPlayer(url: url as URL)
-            player?.volume = 5.0
-            guard let player = player else { return }
-            player.play()
-
-        } catch let error {
-            print(error.localizedDescription)
-        }
     }
     
     func setImg(url: URL) {
@@ -89,11 +73,17 @@ extension SearchCell: SearchCellProtocol {
         collectionLabel.text = text
     }
     
-    
     func setImage(_ image: UIImage) {
        /* DispatchQueue.main.async {
             self.singerPicImageView.image = image
         } */
     }
     
+    func updatePlayButton(isPlaying: Bool) {
+        if isPlaying == true {
+            self.playButton.setImage(UIImage(systemName: "stop.circle"), for: .normal)
+        } else {
+            self.playButton.setImage(UIImage(systemName: "play.circle"), for: .normal)
+        }
+    }
 }
